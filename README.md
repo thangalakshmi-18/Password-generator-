@@ -32,15 +32,3 @@ def secure_password_generator(length=12, use_upper=True, use_digits=True, use_sy
     # Shuffle to make it random
     secrets.SystemRandom().shuffle(password)
     return ''.join(password)
-
-# Example usage
-print("🔐 Secure Password Generator 🔐")
-try:
-    length = int(input("Enter password length (min 4): "))
-    upper = input("Include uppercase letters? (y/n): ").lower() == 'y'
-    digits = input("Include numbers? (y/n): ").lower() == 'y'
-    symbols = input("Include symbols? (y/n): ").lower() == 'y'
-
-    print("Generated Password:", secure_password_generator(length, upper, digits, symbols))
-except ValueError:
-    print("Please enter a valid number!")
