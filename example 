@@ -1,0 +1,75 @@
+
+
+
+📄 password_generator.py
+
+1 | import random
+ 2 | import string
+ 3 | 
+ 4 | def generate_password(length=12, use_upper=True, use_lower=True, use_digits=True, use_symbols=True):
+ 5 |     if not (use_upper or use_lower or use_digits or use_symbols):
+ 6 |         raise ValueError("At least one character type must be selected.")
+ 7 | 
+ 8 |     characters = ''
+ 9 |     if use_upper:
+10 |         characters += string.ascii_uppercase
+11 |     if use_lower:
+12 |         characters += string.ascii_lowercase
+13 |     if use_digits:
+14 |         characters += string.digits
+15 |     if use_symbols:
+16 |         characters += string.punctuation
+17 | 
+18 |     password = ''.join(random.choice(characters) for _ in range(length))
+19 |     return password
+20 | 
+21 | def password_strength(password):
+22 |     length = len(password)
+23 |     criteria = [
+24 |         any(c.islower() for c in password),
+25 |         any(c.isupper() for c in password),
+26 |         any(c.isdigit() for c in password),
+27 |         any(c in string.punctuation for c in password)
+28 |     ]
+29 |     score = sum(criteria)
+30 | 
+31 |     if length >= 12 and score == 4:
+32 |         return "Strong 💪"
+33 |     elif length >= 8 and score >= 3:
+34 |         return "Moderate 👍"
+35 |     else:
+36 |         return "Weak ⚠️"
+37 | 
+38 | def main():
+39 |     print("🔐 Password Generator 🔐")
+40 |     length = int(input("Enter password length (e.g., 12): "))
+41 |     use_upper = input("Include uppercase letters? (y/n): ").lower() == 'y'
+42 |     use_lower = input("Include lowercase letters? (y/n): ").lower() == 'y'
+43 |     use_digits = input("Include numbers? (y/n): ").lower() == 'y'
+44 |     use_symbols = input("Include symbols? (y/n): ").lower() == 'y'
+45 | 
+46 |     try:
+47 |         password = generate_password(length, use_upper, use_lower, use_digits, use_symbols)
+48 |         strength = password_strength(password)
+49 |         print("\n✅ Generated Password:", password)
+50 |         print("🔒 Password Strength:", strength)
+51 |     except ValueError as e:
+52 |         print("Error:", e)
+53 | 
+54 | if __name__ == "__main__":
+55 |     main()
+
+
+🖥️ Example Output
+
+🔐 Password Generator 🔐
+Enter password length (e.g., 12): 14
+Include uppercase letters? (y/n): y
+Include lowercase letters? (y/n): y
+Include numbers? (y/n): y
+Include symbols? (y/n): y
+
+✅ Generated Password: T7@fRp#6mU&xW2
+🔒 Password Strength: Strong 💪
+
+
