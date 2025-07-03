@@ -1,34 +1,41 @@
-# Password-generator-
 import string
 import secrets
 
-def secure_password_generator(length=12, use_upper=True, use_digits=True, use_symbols=True):
-    if length < 4:
-        return "Password too short! Minimum length is 4."
+def generate_password(length=12, use_upper=True, use_lower=True, use_digits=True, use_special=True):
+    """
+    Generates a random password based on selected character sets.
+    - length: total length of password
+    - use_upper: include uppercase letters
+    - use_lower: include lowercase letters
+    - use_digits: include digits
+    - use_special: include punctuation/symbols
+    """
+    charset = ""
+    if use_upper:
+        charset += string.ascii_uppercase
+    if use_lower:
+        charset += string.ascii_lowercase
+    if use_digits:
+        charset += string.digits
+    if use_special:
+        charset += string.punctuation
 
-    # Base character sets
-    lower = string.ascii_lowercase
-    upper = string.ascii_uppercase if use_upper else ''
-    digits = string.digits if use_digits else ''
-    symbols = string.punctuation if use_symbols else ''
+    if not charset:
+        raise ValueError("At least one character type must be selected.")
+    
+    # Use secrets.choice for cryptographic randomness :contentReference[oaicite:1]{index=1}
+    return ''.join(secrets.choice(charset) for _ in range(length))
 
-    all_chars = lower + upper + digits + symbols
+def main():
+    print("🔐 Secure Password Generator")
+    length = int(input("Enter password length (e.g., 12): "))
+    u = input("Include uppercase? (y/n): ").lower().startswith('y')
+    l = input("Include lowercase? (y/n): ").lower().startswith('y')
+    d = input("Include digits? (y/n): ").lower().startswith('y')
+    s = input("Include special chars? (y/n): ").lower().startswith('y')
 
-    if not all_chars:
-        return "Error: No character sets selected."
+    pwd = generate_password(length, use_upper=u, use_lower=l, use_digits=d, use_special=s)
+    print("\nYour new secure password is:\n", pwd)
 
-    # Ensure at least one of each selected type is included
-    password = [
-        secrets.choice(lower),
-        secrets.choice(upper) if use_upper else '',
-        secrets.choice(digits) if use_digits else '',
-        secrets.choice(symbols) if use_symbols else ''
-    ]
-
-    # Fill the rest of the password length
-    while len(password) < length:
-        password.append(secrets.choice(all_chars))
-
-    # Shuffle to make it random
-    secrets.SystemRandom().shuffle(password)
-    return ''.join(password)
+if __name__ == "__main__":
+    main()
