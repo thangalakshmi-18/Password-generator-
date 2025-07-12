@@ -29,14 +29,14 @@ def password_strength(password):
     score = sum(criteria)
 
     if length >= 12 and score == 4:
-        return "Strong 💪"
+        return "Strong "
     elif length >= 8 and score >= 3:
-        return "Moderate 👍"
+        return "Moderate "
     else:
-        return "Weak ⚠️"
+        return "Weak "
 
 def main():
-    print("🔐 Password Generator 🔐")
+    print("Password Generator ")
     length = int(input("Enter password length (e.g., 12): "))
     use_upper = input("Include uppercase letters? (y/n): ").lower() == 'y'
     use_lower = input("Include lowercase letters? (y/n): ").lower() == 'y'
@@ -46,8 +46,8 @@ def main():
     try:
         password = generate_password(length, use_upper, use_lower, use_digits, use_symbols)
         strength = password_strength(password)
-        print("\n✅ Generated Password:", password)
-        print("🔒 Password Strength:", strength)
+        print("\n Generated Password:", password)
+        print("Password Strength:", strength)
     except ValueError as e:
         print("Error:", e)
 
